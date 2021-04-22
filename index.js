@@ -138,8 +138,7 @@ async function listArticleComments(request) {
     headers: {
       'content-type': 'text/html',
       's-maxage': '300',
-      'max-age': '300',
-      'Cache-Control': 'public'
+      'Cache-Control': 'public, max-age=300'
     },
   })
 }
