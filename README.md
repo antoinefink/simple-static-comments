@@ -8,9 +8,20 @@ A single /comments endpoint is used:
 * POST requests create comments
 * GET requests retrieve all the comments for an article (using /comments/my-article-url).
 
+
+If the ZAPIER_URL environment variable URL is set, all comments' data is sent to the webhook to, for example, help with moderation.
+
+## Getting started
+
+Just add a wrangler.toml file and publish the worker. If you're new to this, check out:
+* Getting started with [Cloudflare Workers](https://developers.cloudflare.com/workers/get-started/guide).
+* The Wrangler [documentation](https://developers.cloudflare.com/workers/tooling/wrangler).
+
+To display the comments on any page, include a couple of lines of JS:
+
 ```js
 <script defer>
-  fetch('https://antoinefink.com/comments{{ page.url }}')
+  fetch('https://example.com/comments/this-is-the-path-of-my-article')
     .then(response => {
         if (response.ok) {
           return response.text()
@@ -22,12 +33,3 @@ A single /comments endpoint is used:
     })
 </script>
 ```
-
-If the ZAPIER_URL environment variable URL is set, all comments' data is sent to the webhook to, for example, help with moderation.
-
-## Getting started
-
-Just add a wrangler.toml file and publish the worker. If you're new to this, check out:
-* Getting started with [Cloudflare Workers](https://developers.cloudflare.com/workers/get-started/guide).
-* The Wrangler [documentation](https://developers.cloudflare.com/workers/tooling/wrangler).
-
