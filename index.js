@@ -92,10 +92,11 @@ async function insertComment(request) {
  * used.
  */
 async function listArticleComments(request) {
-  const { searchParams } = new URL(request.url)
-  let permalink = searchParams.get('permalink')
+  const { pathname } = new URL(request.url)
 
-  if (!permalink) {
+  let articleURL = pathname.replace('/comments/', '')
+
+  if (!articleURL) {
     return new Response("", { status: 400 })
   }
 
@@ -106,7 +107,7 @@ async function listArticleComments(request) {
   // With lists returning up to 1000 items, we'll be returning up to 5000 comments
   // which should be more than enough for most use-cases.
   for (i = 0; i < 5; i++) {
-    const values = await COMMENTS_KV.list({ prefix: permalink.replace('/', ''), limit: 1000, cursor: cursor})
+    const values = await COMMENTS_KV.list({ prefix: articleURL, limit: 1000, cursor: cursor})
 
     for (const key of values.keys) {
       console.log("Found comment: " + key.name)
